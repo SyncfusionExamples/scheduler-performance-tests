@@ -1,0 +1,153 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">SchedulerPerformance</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+       
+
+        <div class="nav-section-title px-3">Default Views</div>
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/day">
+                    <span class="bi bi-calendar-week-nav-menu" aria-hidden="true"></span> Day
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="bi bi-calendar-week-nav-menu" aria-hidden="true"></span> Week
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/month">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Month
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/timelineday">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Day
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/timelineweek">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Week
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/timelinemonth">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Month
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/timelineyear">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Year
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/default/agenda">
+                    <span class="bi bi-list-task-nav-menu" aria-hidden="true"></span> Agenda
+                </NavLink>
+            </li>
+        </ul>
+
+        <div class="nav-section-title px-3">Resource Views</div>
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/day">
+                    <span class="bi bi-calendar-week-nav-menu" aria-hidden="true"></span> Day
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/week">
+                    <span class="bi bi-calendar-week-nav-menu" aria-hidden="true"></span> Week
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/month">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Month
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/timelineday">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Day
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/timelineweek">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Week
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/timelinemonth">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Month
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/timelineyear">
+                    <span class="bi bi-calendar-month-nav-menu" aria-hidden="true"></span> Timeline Year
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="schedule/resources/agenda">
+                    <span class="bi bi-list-task-nav-menu" aria-hidden="true"></span> Agenda
+                </NavLink>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+
+<style>
+    .nav-separator {
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        margin: 0.75rem 1rem;
+    }
+
+    .nav-section-title {
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .nav-scrollable {
+        overflow-y: auto;
+    }
+
+        .nav-scrollable .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+            min-height: 2.25rem;
+        }
+
+            .nav-scrollable .nav-link > span[class^="bi-"] {
+                flex: 0 0 1.25rem;
+                width: 1.25rem;
+                text-align: center;
+                font-size: 1rem;
+                opacity: 0.85;
+            }
+
+            .nav-scrollable .nav-link .nav-label {
+                flex: 1 1 auto;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        .nav-scrollable .nav-item:last-child {
+            margin-bottom: 1rem;
+        }
+</style>

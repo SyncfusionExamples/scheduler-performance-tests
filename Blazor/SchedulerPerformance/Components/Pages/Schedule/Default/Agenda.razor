@@ -1,0 +1,275 @@
+﻿@page "/schedule/default/agenda"
+
+@using Syncfusion.Blazor.Schedule
+@using System.Diagnostics
+
+<div class="performance-container">
+    <div class="view-header">
+        <h2>Performance Sample - Agenda View (3000 Events)</h2>
+        <p class="view-description">Agenda view with 3000 events displayed in chronological list format</p>
+    </div>
+
+    <div class="performance-metrics-panel">
+        <div class="metrics-header">Performance Metrics</div>
+        <div class="metrics-content">
+            <div class="metric-row">
+                <span class="metric-label">Initial Load Time</span>
+                <span class="metric-value">@(isRendered? initialLoadTime.ToString("F2") : "0.00") ms</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Create Event Time</span>
+                <span class="metric-value">@(createEventTime > 0 ? createEventTime.ToString("F2") : "0.00") ms</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Edit Event Time</span>
+                <span class="metric-value">@(editEventTime > 0 ? editEventTime.ToString("F2") : "0.00") ms</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Delete Event Time</span>
+                <span class="metric-value">@(deleteEventTime > 0 ? deleteEventTime.ToString("F2") : "0.00") ms</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Total Appointments</span>
+                <span class="metric-value">@AppointmentData.Count</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="EventDataModel"
+                    Width="100%"
+                    Height="700px"
+                    @bind-SelectedDate="@CurrentDate"
+                    AllowDragAndDrop="true"
+                    AllowResizing="true">
+            <ScheduleViews>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEvents TValue="EventDataModel"
+                            Created="OnCreated"
+                            OnActionBegin="OnActionBegin"
+                            ActionCompleted="OnActionCompleted"
+                            DataBound="OnDataBound"></ScheduleEvents>
+            <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+
+<style>
+    .performance-container {
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    .view-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #4472c4;
+    }
+
+        .view-header h2 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+    .view-description {
+        margin: 5px 0 0 0;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .schedule-wrapper {
+        margin: 20px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .performance-metrics-panel {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .metrics-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .metrics-content {
+        padding: 16px;
+    }
+
+    .metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 13px;
+    }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+    .metric-label {
+        color: #666;
+        font-weight: 500;
+    }
+
+    .metric-value {
+        color: #667eea;
+        font-weight: 600;
+        font-family: 'Monaco', 'Courier New', monospace;
+    }
+
+    @@media (max-width: 768px) {
+        .performance-container {
+            padding: 10px;
+            max-width: 100%;
+        }
+
+        .view-header h2 {
+            font-size: 20px;
+        }
+
+        .schedule-wrapper {
+            margin: 10px 0;
+        }
+    }
+</style>
+
+@code {
+    DateTime CurrentDate = new DateTime(DateTime.Now.Year, 4, 5);
+    public List<EventDataModel> AppointmentData = new List<EventDataModel>();
+
+    private Stopwatch initialLoadTimer = new Stopwatch();
+    private Stopwatch interactionTimer = new Stopwatch();
+    private double initialLoadTime = 0;
+    private double createEventTime = 0;
+    private double editEventTime = 0;
+    private double deleteEventTime = 0;
+    private bool isRendered = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        initialLoadTimer.Start();
+
+        // Generate 3000 appointments for agenda view testing (across 30 days)
+        AppointmentData = GenerateAppointmentsForAgendaView(3000);
+    }
+
+    private async Task OnCreated()
+    {
+        await Task.Yield();
+        if (!isRendered)
+        {
+            isRendered = true;
+            initialLoadTimer.Stop();
+            initialLoadTime = initialLoadTimer.Elapsed.TotalMilliseconds;
+        }
+    }
+
+    private void OnActionBegin(ActionEventArgs<EventDataModel> args)
+    {
+        // Start timing for create/edit/delete operations
+        interactionTimer.Restart();
+    }
+
+    private async Task OnActionCompleted(ActionEventArgs<EventDataModel> args)
+    {
+        await Task.Yield();
+        interactionTimer.Stop();
+
+        // Log performance based on action type
+        if (args.ActionType == ActionType.EventCreate)
+        {
+            createEventTime = interactionTimer.Elapsed.TotalMilliseconds;
+        }
+        else if (args.ActionType == ActionType.EventChange)
+        {
+            editEventTime = interactionTimer.Elapsed.TotalMilliseconds;
+        }
+        else if (args.ActionType == ActionType.EventRemove)
+        {
+            deleteEventTime = interactionTimer.Elapsed.TotalMilliseconds;
+        }
+    }
+
+    private async Task OnDataBound(DataBoundEventArgs<EventDataModel> args)
+    {
+        await Task.Yield();
+        // DataBound is called after initial render
+        if (!isRendered)
+        {
+            isRendered = true;
+            initialLoadTimer.Stop();
+            initialLoadTime = initialLoadTimer.Elapsed.TotalMilliseconds;
+        }
+    }
+
+    private List<EventDataModel> GenerateAppointmentsForAgendaView(int count)
+    {
+        List<EventDataModel> appointments = new List<EventDataModel>();
+        Random random = new Random();
+
+        string[] subjects = {
+            "Team Standup", "Client Meeting", "Code Review", "Design Discussion", "Planning Session",
+            "Development Task", "Testing", "Documentation", "Debugging Session", "Architecture Review",
+            "Sprint Review", "Retrospective", "One-on-One", "Training Session", "Brainstorming",
+            "Team Building", "Project Kickoff", "Budget Review", "Performance Review", "Strategy Session",
+            "Workshop", "Conference Call", "Demo Preparation", "Deployment", "Maintenance",
+            "Security Audit", "Infrastructure Review", "Team Lunch", "All Hands Meeting", "Tech Talk"
+        };
+
+        // Month starts on April 5, 2025 (Sunday) - use for 30 days
+        DateTime monthStart = new DateTime(DateTime.Now.Year, 4, 5);
+
+        for (int i = 0; i < count; i++)
+        {
+            // Distribute events across all 30 days of the month
+            int dayOfMonth = random.Next(0, 30);
+            int hour = random.Next(8, 18);
+            int minute = random.Next(0, 60);
+            int second = random.Next(0, 60);
+            int duration = random.Next(30, 120); // Longer durations for agenda view readability
+
+            DateTime startTime = monthStart.AddDays(dayOfMonth).AddHours(hour).AddMinutes(minute).AddSeconds(second);
+            DateTime endTime = startTime.AddMinutes(duration);
+
+            appointments.Add(new EventDataModel
+            {
+                Id = i + 1,
+                Subject = subjects[random.Next(subjects.Length)],
+                StartTime = startTime,
+                EndTime = endTime,
+                Description = $"Performance Test Event {i + 1}",
+                Location = $"Room {(i % 20) + 1}"
+            });
+        }
+
+        return appointments;
+    }
+
+    public class EventDataModel
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+    }
+}
