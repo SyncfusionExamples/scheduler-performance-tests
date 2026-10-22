@@ -157,7 +157,7 @@ export const generateWeekEvents = () => {
   let id: number = 1;
 
   const totalSlots = 7 * 48;          // 336
-  const totalEvents = 700;
+  const totalEvents = 2000;
 
   const baseEventsPerSlot = Math.floor(totalEvents / totalSlots); // 2
   const extraEvents = totalEvents % totalSlots; // 28

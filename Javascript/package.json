@@ -13,10 +13,10 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@syncfusion/ej2-base": "33.1.44",
-    "@syncfusion/ej2-buttons": "33.1.44",
-    "@syncfusion/ej2-dropdowns": "33.1.44",
-    "@syncfusion/ej2-navigations": "33.1.44",
-    "@syncfusion/ej2-schedule": "33.1.44"
+    "@syncfusion/ej2-base": "*",
+    "@syncfusion/ej2-buttons": "*",
+    "@syncfusion/ej2-dropdowns": "*",
+    "@syncfusion/ej2-navigations": "*",
+    "@syncfusion/ej2-schedule": "*"
   }
 }
