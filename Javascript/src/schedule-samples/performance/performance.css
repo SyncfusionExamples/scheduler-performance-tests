@@ -1,0 +1,195 @@
+.schedule-app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+}
+
+.top-scheduler-toolbar {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.schedule-config-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.schedule-config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.schedule-config-label,
+.schedule-metric-label {
+  font-size: 14px;
+  color: #64748B;
+  letter-spacing: 0.04em;
+}
+
+.schedule-metric-value {
+  color: #2563EB;
+}
+
+.schedule-main-layout {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  min-height: 0;
+}
+
+.schedule-performance-container {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+}
+
+.schedule-performance-container .e-schedule {
+  flex: 1;
+  height: 100% !important;
+  border: none;
+  border-radius: 12px;
+}
+
+.no-events .e-appointment,
+.no-events .e-appointment-wrapper,
+.no-events .e-appointment-container {
+  display: none !important;
+}
+
+.schedule-metrics-panel {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.schedule-panel-header {
+  background: rgba(79, 70, 229);
+  color: #fff;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.schedule-dropdown-panel-body, .schedule-metric-panel-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.schedule-metric-card {
+  border: 1.5px solid #2563eb22;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+}
+
+.schedule-performance-container, .schedule-metrics-panel{
+    height: 553px;
+}
+
+/* ══════════════ Responsive ══════════════ */
+
+/* ── Tablet (≤ 900px): stack panel below scheduler ── */
+@media (max-width: 900px) {
+
+  .schedule-main-layout {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .schedule-performance-container {
+    width: 100%;
+    flex: none;
+    height: 450px; /* reduce height */
+  }
+
+  .schedule-metrics-panel {
+    width: 100%;
+    height: 420px;
+    flex: none;
+  }
+
+  .schedule-dropdown-panel-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .schedule-metric-card {
+    grid-column: auto;
+  }
+
+  /* Top toolbar wrap */
+  .top-scheduler-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .schedule-config-panel {
+    flex-wrap: wrap;
+  }
+}
+
+/* ── Mobile (≤ 600px): single column + compact UI ── */
+@media (max-width: 600px) {
+
+  .schedule-app-root {
+    padding: 6px 8px;
+  }
+
+  .schedule-main-layout {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .schedule-performance-container {
+    height: 400px;
+    padding: 8px;
+  }
+
+  .schedule-metrics-panel {
+    height: 380px;
+    overflow: hidden;
+  }
+
+  .schedule-metric-card {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  /* Config rows stack properly */
+  .schedule-config-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .schedule-config-label {
+    font-size: 13px;
+  }
+
+  /* Buttons adjust */
+  .schedule-config-panel {
+    flex-direction: row;
+    gap: 8px;
+  }
+}

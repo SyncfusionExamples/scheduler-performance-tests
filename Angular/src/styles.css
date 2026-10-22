@@ -1,0 +1,7 @@
+/* Syncfusion Tailwind 3 theme is loaded from the CDN in index.html (same as the React sample). */
+@import './styles/Performance.css';
+
+html, body {
+    margin: 0;
+    height: 100%;
+}

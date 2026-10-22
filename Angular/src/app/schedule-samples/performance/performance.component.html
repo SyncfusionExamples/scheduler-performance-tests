@@ -1,0 +1,117 @@
+<div class="schedule-app-root">
+
+  <!-- TOP BAR -->
+  <div class="top-scheduler-toolbar">
+    <div class="schedule-config-panel">
+      <button ejs-button cssClass="e-primary" (click)="loadData()" [disabled]="isLoaded">Load Data</button>
+      <button ejs-button (click)="resetData()" [disabled]="!isLoaded">Reset</button>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="schedule-main-layout">
+    <!-- LEFT: SCHEDULER -->
+    <div class="schedule-performance-container">
+      <ejs-schedule #scheduleObj
+        width="100%"
+        height="100%"
+        [currentView]="currentView"
+        [selectedDate]="selectedDate"
+        [cssClass]="isLoaded ? '' : 'no-events'"
+        [eventSettings]="eventSettings"
+        [group]="group"
+        (actionBegin)="onActionBegin($event)"
+        (actionComplete)="onActionComplete($event)"
+        (dataBound)="onDataBound()">
+
+        <e-views>
+          <e-view option="Day" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="Week" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="Month" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="TimelineDay" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="TimelineWeek" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="TimelineMonth" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="TimelineYear" orientation="Vertical" [allowVirtualScrolling]="true"></e-view>
+          <e-view option="Agenda" [allowVirtualScrolling]="true"></e-view>
+        </e-views>
+
+        <e-resources>
+          <e-resource
+            field="OwnerId"
+            title="Owner"
+            name="Owners"
+            [allowMultiple]="false"
+            [dataSource]="ownerDataSource"
+            textField="Text"
+            idField="Id"
+            colorField="Color">
+          </e-resource>
+        </e-resources>
+
+        <e-toolbaritems>
+          <e-toolbaritem name="Previous" align="Left"></e-toolbaritem>
+          <e-toolbaritem name="Next" align="Left"></e-toolbaritem>
+          <e-toolbaritem name="DateRangeText" align="Left"></e-toolbaritem>
+          <e-toolbaritem name="Views" align="Right"></e-toolbaritem>
+        </e-toolbaritems>
+      </ejs-schedule>
+    </div>
+
+    <!-- RIGHT: PANEL -->
+    <div class="schedule-metrics-panel">
+      <!-- Scheduler Configuration section -->
+      <div class="schedule-panel-header">Scheduler Configuration</div>
+      <div class="schedule-dropdown-panel-body">
+        <div class="schedule-config-row">
+          <label class="schedule-config-label">View</label>
+          <ejs-dropdownlist
+            width="150"
+            [dataSource]="viewOptions"
+            [fields]="dropDownFields"
+            [value]="currentView"
+            (change)="onViewChange($event)">
+          </ejs-dropdownlist>
+        </div>
+
+        <div class="schedule-config-row">
+          <label class="schedule-config-label">Resource Mode</label>
+          <ejs-dropdownlist
+            width="150"
+            [dataSource]="resourceModeOptions"
+            [fields]="dropDownFields"
+            [value]="useResources ? 'with' : 'none'"
+            (change)="onResourceModeChange($event)">
+          </ejs-dropdownlist>
+        </div>
+      </div>
+
+      <!-- Performance Metrics section -->
+      <div class="schedule-panel-header">Performance Metrics</div>
+      <div class="schedule-metric-panel-body">
+        <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Initial Load', value: eventTime() || '— ms' }"></ng-container>
+
+        @if (currentView !== 'Agenda') {
+          <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Create Event', value: createTime() || '— ms' }"></ng-container>
+        }
+
+        <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Update Event', value: updateTime() || '— ms' }"></ng-container>
+
+        <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Delete Event', value: deleteTime() || '— ms' }"></ng-container>
+
+        @if (useResources) {
+          <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Resources In View', value: owners.length.toLocaleString() }"></ng-container>
+        }
+
+        <ng-container *ngTemplateOutlet="metricCard; context: { label: 'Events In View', value: currentCount().toLocaleString() }"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Equivalent of the React renderMetricCard() helper -->
+<ng-template #metricCard let-label="label" let-value="value">
+  <div class="schedule-metric-card">
+    <span class="schedule-metric-label">{{ label }}</span>
+    <div class="schedule-metric-value">{{ value }}</div>
+  </div>
+</ng-template>
