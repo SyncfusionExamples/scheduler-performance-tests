@@ -1,0 +1,22 @@
+{
+  "name": "scheduler-evaluation-typescript",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@syncfusion/ej2-base": "33.1.44",
+    "@syncfusion/ej2-buttons": "33.1.44",
+    "@syncfusion/ej2-dropdowns": "33.1.44",
+    "@syncfusion/ej2-navigations": "33.1.44",
+    "@syncfusion/ej2-schedule": "33.1.44"
+  }
+}
